@@ -110,7 +110,7 @@
             <tbody>
                 <% items.forEach(function (item) { %>
                     <tr>
-                        <td><span class="label label-primary"><%=item.percent%>%</span> <span class="label label-success"><%=item.rate / 100%>%</span> ￥<%=principle * item.percent / 100%></td>
+                        <td><span class="label label-primary"><%=item.percent%>%</span> <span class="label label-success"><%=item.rate%>%</span> ￥<%=principle * item.percent / 100%></td>
                         <td>￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 1)%></td>
                         <td><span class="label label-success"><%=(calcInterest(principle * item.percent / 100, item.rate / 100, 2) / (principle * item.percent / 100)).toFixed(2)%>倍</span> ￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 2)%></td>
                         <td><span class="label label-success"><%=(calcInterest(principle * item.percent / 100, item.rate / 100, 5) / (principle * item.percent / 100)).toFixed(2)%>倍</span> ￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 5)%></td>
@@ -120,7 +120,7 @@
                 <% }) %>
 
                 <tr>
-                    <td><span class="label label-primary">合计</span> <span class="label label-success"><%=avgRate / 100%>%</span> ￥<%=principle%></td>
+                    <td><span class="label label-primary">合计</span> <span class="label label-success"><%=avgRate%>%</span> ￥<%=principle%></td>
                     <td>￥<%=calcInterest(principle, avgRate / 100, 1)%></td>
                     <td><span class="label label-success"><%=(calcInterest(principle, avgRate / 100, 2) / principle).toFixed(2)%>倍</span> ￥<%=calcInterest(principle, avgRate / 100, 2)%></td>
                     <td><span class="label label-success"><%=(calcInterest(principle, avgRate / 100, 5) / principle).toFixed(2)%>倍</span> ￥<%=calcInterest(principle, avgRate / 100, 5)%></td>
