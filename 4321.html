@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="" />
+    <meta name="description" content="">
+    <meta name="author" content="颜海镜">
+    <title>4321理财</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/4321.css">
+    <script src="js/tongji.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">4321理财</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://yanhaijing.com/" target="_blank">我的博客</a></li>
+                    <li><a href="http://yanhaijing.com/basejs/" target="_blank">JS简易教程</a></li>
+                    <li><a href="http://yanhaijing.com/es5/" target="_blank">ES5合集</a></li>
+                    <li><a href="http://yanhaijing.com/myProject/" target="_blank">我的作品</a></li>
+                    <li><a href="http://yanhaijing.com/yan_about/" target="_blank">关于我</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    
+    <div class="my-container container">
+        <div class="row">
+            <h2 class="col-xs-12">资产</h2>
+        </div>
+        <form class="form-horizontal">
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="principle">本金</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">￥</div>
+                        <input type="text" class="form-control" id="principle" placeholder="300000" value="250000">
+                    </div>
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="rate1">40%资产的年收益</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">%</div>
+                        <input type="text" class="form-control" id="rate1" placeholder="4" value="4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="rate2">30%资产的年收益</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">%</div>
+                        <input type="text" class="form-control" id="rate2" placeholder="6" value="6">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="rate3">20%资产的年收益</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">%</div>
+                        <input type="text" class="form-control" id="rate3" placeholder="10" value="10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="rate4">10%资产的年收益</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">%</div>
+                        <input type="text" class="form-control" id="rate4" placeholder="15" value="15">
+                    </div>
+                </div>
+            </fieldset>
+
+
+        </form>
+
+        <div class="row">
+            <h2 class="col-xs-12">收益</h2>
+            <div id="earnings-wp"></div>
+        </div>
+    </div>
+    <!-- .container -->
+
+    <script id="template" type="template">
+        <div><span class="label label-danger">平均年化率：</span><%items.forEach(function (item, k) {%> <%=k === 0 ? '' : '+'%> <%=item.rate%>% * <%=item.percent / 100%> <%})%> = <%=avgRate%>%</div>
+        <table class="table">
+            <thead>
+                <th>比例 利率 ￥ \\ 年</th>
+                <th>1年</th>
+                <th>2年</th>
+                <th>5年</th>
+                <th>10年</th>
+                <th>20年</th>
+            </thead>
+            <tbody>
+                <% items.forEach(function (item) { %>
+                    <tr>
+                        <td><span class="label label-primary"><%=item.percent%>%</span> <span class="label label-success"><%=item.rate / 100%>%</span> ￥<%=principle * item.percent / 100%></td>
+                        <td>￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 1)%></td>
+                        <td><span class="label label-success"><%=(calcInterest(principle * item.percent / 100, item.rate / 100, 2) / (principle * item.percent / 100)).toFixed(2)%>倍</span> ￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 2)%></td>
+                        <td><span class="label label-success"><%=(calcInterest(principle * item.percent / 100, item.rate / 100, 5) / (principle * item.percent / 100)).toFixed(2)%>倍</span> ￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 5)%></td>
+                        <td><span class="label label-success"><%=(calcInterest(principle * item.percent / 100, item.rate / 100, 10) / (principle * item.percent / 100)).toFixed(2)%>倍</span> ￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 10)%></td>
+                        <td><span class="label label-success"><%=(calcInterest(principle * item.percent / 100, item.rate / 100, 20) / (principle * item.percent / 100)).toFixed(2)%>倍</span> ￥<%=calcInterest(principle * item.percent / 100, item.rate / 100, 20)%></td>
+                    </tr>
+                <% }) %>
+
+                <tr>
+                    <td><span class="label label-primary">合计</span> <span class="label label-success"><%=avgRate / 100%>%</span> ￥<%=principle%></td>
+                    <td>￥<%=calcInterest(principle, avgRate / 100, 1)%></td>
+                    <td><span class="label label-success"><%=(calcInterest(principle, avgRate / 100, 2) / principle).toFixed(2)%>倍</span> ￥<%=calcInterest(principle, avgRate / 100, 2)%></td>
+                    <td><span class="label label-success"><%=(calcInterest(principle, avgRate / 100, 5) / principle).toFixed(2)%>倍</span> ￥<%=calcInterest(principle, avgRate / 100, 5)%></td>
+                    <td><span class="label label-success"><%=(calcInterest(principle, avgRate / 100, 10) / principle).toFixed(2)%>倍</span> ￥<%=calcInterest(principle, avgRate / 100, 10)%></td>
+                    <td><span class="label label-success"><%=(calcInterest(principle, avgRate / 100, 20) / principle).toFixed(2)%>倍</span> ￥<%=calcInterest(principle, avgRate / 100, 20)%></td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+    <script src="lib/jquery/jquery-1.12.4.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
+    <script src="lib/template/template.js"></script>
+    <script src="js/4321.js"></script>
+
+    <!-- JiaThis Button BEGIN -->
+    <script type="text/javascript">
+    var jiathis_config = {
+        data_track_clickback: 'true'
+    };
+    </script>
+    <script type="text/javascript" src="http://v3.jiathis.com/code/jiathis_r.js?move=0&amp;btn=r2.gif&amp;uid=1394090280134564" charset="utf-8"></script>
+    <!-- JiaThis Button END -->
+</body>
+</html>
