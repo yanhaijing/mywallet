@@ -22,6 +22,12 @@ function calc() {
     var rate3 = Number($rate3.val());
     var rate4 = Number($rate4.val());
 
+    localStorage.setItem('yanhaijing.com/mywallet/principle', principle);
+    localStorage.setItem('yanhaijing.com/mywallet/rate1', rate1);
+    localStorage.setItem('yanhaijing.com/mywallet/rate2', rate2);
+    localStorage.setItem('yanhaijing.com/mywallet/rate3', rate3);
+    localStorage.setItem('yanhaijing.com/mywallet/rate4', rate4);
+
     return {
         calcInterest: calcInterest,
         principle: principle,
@@ -58,6 +64,18 @@ function init() {
     $rate2.on('change', onChange);
     $rate3.on('change', onChange);
     $rate4.on('change', onChange);
+
+    var principle = localStorage.getItem('yanhaijing.com/mywallet/principle');
+    var rate1 = localStorage.getItem('yanhaijing.com/mywallet/rate1');
+    var rate2 = localStorage.getItem('yanhaijing.com/mywallet/rate2');
+    var rate3 = localStorage.getItem('yanhaijing.com/mywallet/rate3');
+    var rate4 = localStorage.getItem('yanhaijing.com/mywallet/rate4');
+
+    principle && $('#principle').val(principle);
+    rate1 && $('#rate1').val(rate1);
+    rate2 && $('#rate2').val(rate2);
+    rate3 && $('#rate3').val(rate3);
+    rate4 && $('#rate4').val(rate4);
 
     // 初始化计算
     render(calc());
