@@ -137,7 +137,7 @@
             <tbody>
                 <%list.forEach(function (item, key) {%>
                     <tr>
-                        <td>第<%=key%>期</td>
+                        <td>第<%=key + 1%>期</td>
                         <td><%=item.money + item.interest%></td>
                         <td><%=item.money%></td>
                         <td><%=item.interest%></td>
@@ -147,6 +147,7 @@
             </tbody>
         </table>
     </script>
+
     <script src="lib/jquery/jquery-1.12.4.js"></script>
     <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/template/template.js"></script>
