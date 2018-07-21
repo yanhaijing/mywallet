@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="钱包 我的钱包 收款主页 颜海镜钱包" />
+    <meta name="description" content="这是我的收款主页，希望我的博客和开源项目能够帮到你，期待你能给我一点鼓励，￥_￥">
+    <meta name="author" content="颜海镜">
+    <title>利息计算器</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/interest-calc.css">
+    <script src="//yanhaijing.com/assets/plugin/tongji/baidu.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">颜海镜钱包</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://yanhaijing.com/" target="_blank">我的博客</a></li>
+                    <li><a href="http://yanhaijing.com/mywallet/" target="_blank">我的钱包</a></li>
+                    <li><a href="http://yanhaijing.com/mywallet/4321.html" target="_blank">资产配置</a></li>
+                    <li><a href="http://yanhaijing.com/myProject/" target="_blank">我的作品</a></li>
+                    <li><a href="http://yanhaijing.com/yan_about/" target="_blank">关于我</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="my-container container">
+        <div class="row">
+            <h2 class="col-xs-12">
+                利息计算器
+                <small>支持按天，按月，按年还款</small>
+            </h2>
+        </div>
+
+        <form class="form-horizontal">
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">还款金额</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">￥</div>
+                        <input type="text" class="form-control" id="principle" placeholder="1000000" value="1000000">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">还款方式</label>
+                    <div class="radio disabled">
+                      <label>
+                        <input type="radio" name="optionsRadios" checked disabled>
+                        等额本金
+                      </label>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">还款利率</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">%</div>
+                        <input type="text" class="form-control" id="rate" placeholder="4.9" value="4.9">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">还款次数</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">次</div>
+                        <input type="text" class="form-control" id="count" placeholder="25" value="25">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">还款周期</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">天</div>
+                        <input type="text" class="form-control" id="days" placeholder="365" value="365">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="form-group">
+                    <button id="submit" type="submit" class="btn btn-primary">计算</button>
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="row">
+            <h2 class="col-xs-12">等额本金</h2>
+            <div id="interest-wp"></div>
+        </div>
+
+        <hr>
+        <footer>
+            <p>
+                &copy; 2016-2017 <a href="http://yanhaijing.com/" target="_blank">颜海镜</a>
+                <a class="github" href="https://github.com/yanhaijing/mywallet" target="_blank" title="Fork me on GitHub" rel="nofollow"> <img width="20" height="20" align="Fork me on GitHub" src="img/auth-github.png" /></a>
+                <a class="weibo" href="http://weibo.com/yanhaijing1234/profile" target="_blank" title="weibo" rel="nofollow"> <img width="20" height="20" align="weibo" src="img/auth-weibo.png" /></a>
+            </p>
+        </footer>
+    </div>
+    <!-- .container -->
+
+    <script id="template" type="template">
+        <h2>总信息</h2>
+        <div>贷款金额：<%=principle%></div>
+        <div>总利息：<%=totalInterest%></div>
+        <h2>详细信息</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>期次</th>
+                    <th>偿还本息</th>
+                    <th>偿还本金</th>
+                    <th>偿还利息</th>
+                    <th>剩余本金</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%list.forEach(function (item, key) {%>
+                    <tr>
+                        <td>第<%=key%>期</td>
+                        <td><%=item.money + item.interest%></td>
+                        <td><%=item.money%></td>
+                        <td><%=item.interest%></td>
+                        <td><%=principle - item.money * (key + 1)%></td>
+                    </tr>
+                <%})%>
+            </tbody>
+        </table>
+    </script>
+    <script src="lib/jquery/jquery-1.12.4.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
+    <script src="lib/template/template.js"></script>
+    <script src="js/interest-calc.js"></script>
+</body>
+</html>
